@@ -1,4 +1,4 @@
-package edu.stqa.irigri.addressbook;
+package edu.stqa.irigri.addressbook.model;
 
 public class GroupData {
     private final String name;
