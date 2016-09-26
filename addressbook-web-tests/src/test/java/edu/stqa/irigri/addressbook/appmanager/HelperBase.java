@@ -22,6 +22,14 @@ public class HelperBase {
         wd.findElement(locator).sendKeys(text);
     }
 
+    protected void setElementSelected(By locator) {
+        click(locator);
+    }
+
+    protected void closeAlert(){
+        wd.switchTo().alert().accept();
+    }
+
     public boolean isAlertPresent() {
         try {
             wd.switchTo().alert();
