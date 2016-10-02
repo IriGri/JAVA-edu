@@ -2,11 +2,12 @@ package edu.stqa.irigri.addressbook.appmanager;
 
 import edu.stqa.irigri.addressbook.model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class GroupsHelper extends HelperBase {
 
-    public GroupsHelper(FirefoxDriver wd) {
+    public GroupsHelper(WebDriver wd) {
         super(wd);
     }
 
