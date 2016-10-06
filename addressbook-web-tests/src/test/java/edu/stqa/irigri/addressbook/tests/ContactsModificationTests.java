@@ -13,10 +13,7 @@ public class ContactsModificationTests extends TestBase {
         }
         app.getNavigationHelper().gotoHomePage();
         int before = app.getContactHelper().getContactsCount();
-        app.getContactHelper().selectContact();
-        app.getContactHelper().editContact();
-        app.getContactHelper().fillContactForm(new ContactData("Iri", "Gri", "911", "test@email.com", "France", null), false);
-        app.getContactHelper().updateContactForm();
+        app.getContactHelper().editContact(new ContactData("Iri", "Gri", "911", "test@email.com", "France", null));
         app.getNavigationHelper().gotoHomePage();
         int after = app.getContactHelper().getContactsCount();
         Assert.assertEquals(after, before);
