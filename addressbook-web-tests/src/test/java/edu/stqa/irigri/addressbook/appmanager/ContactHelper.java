@@ -3,8 +3,12 @@ package edu.stqa.irigri.addressbook.appmanager;
 import edu.stqa.irigri.addressbook.model.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -76,5 +80,16 @@ public class ContactHelper extends HelperBase {
 
     public int getContactsCount() {
         return wd.findElements(By.name("selected[]")).size();
+    }
+
+    public List<ContactData> getContactsList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.cssSelector("tr.odd"));
+        for (WebElement element : elements) {
+            String name = element.getText();
+            ContactData contact = new ContactData(name, null, null, null, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }
