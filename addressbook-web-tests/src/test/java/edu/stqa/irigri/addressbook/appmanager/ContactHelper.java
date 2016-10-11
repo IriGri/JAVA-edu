@@ -2,9 +2,7 @@ package edu.stqa.irigri.addressbook.appmanager;
 
 import edu.stqa.irigri.addressbook.model.ContactData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
@@ -36,8 +34,9 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void selectContact() {
-        setElementSelected(By.name("selected[]"));
+    public void selectContact(int index) {
+    //    setElementSelected(By.name("selected[]"));
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteSelectedContact() {
@@ -45,7 +44,7 @@ public class ContactHelper extends HelperBase {
         wd.switchTo().alert().accept();
     }
 
-    public void editContact() {
+    public void initEditContact() {
         click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
     }
 
@@ -64,14 +63,14 @@ public class ContactHelper extends HelperBase {
     }
 
     public void editContact(ContactData contact){
-        selectContact();
-        editContact();
+        selectContact(1);
+        initEditContact();
         fillContactForm(contact, false);
         updateContactForm();
     }
 
     public void deleteContact() {
-        selectContact();
+        selectContact(1);
         deleteSelectedContact();
     }
 
