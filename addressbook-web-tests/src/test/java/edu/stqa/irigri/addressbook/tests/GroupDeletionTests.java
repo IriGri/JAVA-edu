@@ -4,20 +4,22 @@ import edu.stqa.irigri.addressbook.model.GroupData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class GroupDeletionTests extends TestBase {
 
     @Test
     public void testGroupDeletionTests() {
         app.getNavigationHelper().gotoGroupPage();
-        int before = app.getGroupsHelper().getGroupCount();
         if (! app.getGroupsHelper().isThereAGroup()) {
             app.getGroupsHelper().createGroup(new GroupData("test8", null, null));
         }
-        app.getGroupsHelper().selectGroup(before - 1);
+        List<GroupData> before = app.getGroupsHelper().getGroupList();
+        app.getGroupsHelper().selectGroup(before.size() - 1);
         app.getGroupsHelper().deleteSelectedGroups();
         app.getGroupsHelper().returnToGroupPage();
-        int after = app.getGroupsHelper().getGroupCount();
-        Assert.assertEquals(after, before - 1);
+        List<GroupData> after = app.getGroupsHelper().getGroupList();
+        Assert.assertEquals(after.size(), before.size() - 1);
     }
 
 }
