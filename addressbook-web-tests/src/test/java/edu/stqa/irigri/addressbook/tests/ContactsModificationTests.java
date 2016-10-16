@@ -5,14 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 public class ContactsModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions(){
-        if (app.contact().list().size() == 0) {
+        if (app.contact().all().size() == 0) {
             app.contact().create(new ContactData()
                     .withFirstname("Iri").withLastname("Gri").withMobile("3222333").withEmail("test@email.com").withAddress("France").withGroup("test1"));
         }
@@ -21,19 +20,17 @@ public class ContactsModificationTests extends TestBase {
     @Test
     public void testContactsModification(){
         app.goTo().homePage();
-        List<ContactData> before = app.contact().list();
-        ContactData contact = new ContactData().withId(before.get(0).getId())
+        Set<ContactData> before = app.contact().all();
+        ContactData modifiedContact = before.iterator().next();
+        ContactData contact = new ContactData().withId(modifiedContact.getId())
                 .withFirstname("Iri").withLastname("Gri").withMobile("3222333").withEmail("test@email.com").withAddress("France").withGroup("test1");
         app.contact().edit(contact);
         app.goTo().homePage();
-        List<ContactData> after = app.contact().list();
+        Set<ContactData> after = app.contact().all();
         Assert.assertEquals(after.size(), before.size());
 
-        before.remove(0);
+        before.remove(modifiedContact);
         before.add(contact);
-        Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-        before.sort(byId);
-        after.sort(byId);
         Assert.assertEquals(before, after);
     }
 }
