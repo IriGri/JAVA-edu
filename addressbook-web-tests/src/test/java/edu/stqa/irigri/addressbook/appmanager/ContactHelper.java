@@ -67,14 +67,14 @@ public class ContactHelper extends HelperBase {
     }
 
     public void editContact(ContactData contact){
-        selectContact(1);
+        selectContact(0);
         initEditContact();
         fillContactForm(contact, false);
         updateContactForm();
     }
 
     public void deleteContact() {
-        selectContact(1);
+        selectContact(0);
         deleteSelectedContact();
     }
 
