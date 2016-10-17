@@ -66,6 +66,7 @@ public class ContactHelper extends HelperBase {
         initContactCreation();
         fillContactForm(contact, true);
         submitContactCreation();
+        contactCache = null;
     }
 
     public void edit(ContactData contact){
@@ -73,14 +74,16 @@ public class ContactHelper extends HelperBase {
         initEditContact();
         fillContactForm(contact, false);
         updateContactForm();
+        contactCache = null;
     }
 
     public void delete(ContactData contact) {
         selectContactById(contact.getId());
         deleteSelectedContact();
+        contactCache = null;
     }
 
-    public int getContactsCount() {
+    public int count() {
         return wd.findElements(By.name("selected[]")).size();
     }
 
