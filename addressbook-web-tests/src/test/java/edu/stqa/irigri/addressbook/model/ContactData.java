@@ -7,8 +7,19 @@ public class ContactData {
     private String homePhone;
     private String mobile;
     private String workPhone;
+    private String allPhones;
     private String email;
     private String address;
+
+    public String getAllPhones() {
+        return allPhones;
+    }
+
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
+
     private String group;
 
     public ContactData withId(int id) {
@@ -121,4 +132,5 @@ public class ContactData {
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }
+
 }
