@@ -119,7 +119,23 @@ public class ContactHelper extends HelperBase {
         String work = wd.findElement(By.name("work")).getAttribute("value");
         wd.navigate().back();
         return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-                .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home).withMobile(mobile).withWorkPhone(work);
+                .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3)
+                .withHomePhone(home).withMobile(mobile).withWorkPhone(work);
+    }
+
+    public ContactData contactDetails(ContactData contact) {
+        viewDetailsById(contact.getId());
+        String details = wd.findElement(By.id("content")).getText();
+        wd.navigate().back();
+        return new ContactData().withDetails(details);
+
+    }
+
+    private void viewDetailsById(int id){
+        WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+        WebElement row = checkbox.findElement(By.xpath("./../.."));
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        cells.get(6).findElement(By.tagName("a")).click();
     }
 
     private void initContactModificationById(int id){
@@ -128,4 +144,5 @@ public class ContactHelper extends HelperBase {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         cells.get(7).findElement(By.tagName("a")).click();
     }
+
 }

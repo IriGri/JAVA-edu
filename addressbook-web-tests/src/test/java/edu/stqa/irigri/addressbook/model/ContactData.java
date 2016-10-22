@@ -13,6 +13,16 @@ public class ContactData {
     private String email3;
     private String allEmails;
     private String address;
+    private String details;
+
+    public String getDetails() {
+        return details;
+    }
+
+    public ContactData withDetails(String details) {
+        this.details = details;
+        return this;
+    }
 
     public String getEmail2() {
         return email2;
