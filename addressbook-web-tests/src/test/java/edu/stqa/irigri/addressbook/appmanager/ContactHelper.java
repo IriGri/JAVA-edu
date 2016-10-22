@@ -26,11 +26,14 @@ public class ContactHelper extends HelperBase {
         type(By.name("mobile"), contactData.getMobile());
         type(By.name("email"), contactData.getEmail());
         type(By.name("address"), contactData.getAddress());
+        attach(By.name("photo"), contactData.getPhoto());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-        } else {
-            Assert.assertFalse(isElementPresent(By.name("new_group")));
+            if (contactData.getGroup() != null) {
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            } else {
+                Assert.assertFalse(isElementPresent(By.name("new_group")));
+            }
         }
     }
 
@@ -61,7 +64,7 @@ public class ContactHelper extends HelperBase {
 
     public void create(ContactData contact) {
         initContactCreation();
-        fillContactForm(contact, true);
+        fillContactForm(contact, false);
         submitContactCreation();
         contactCache = null;
     }
