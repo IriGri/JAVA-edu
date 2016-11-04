@@ -39,12 +39,12 @@ public class ContactsCreationTests extends TestBase {
         @Test (dataProvider = "validContacts")
         public void testContactsCreationTests(ContactData contact) {
         app.goTo().homePage();
-        Contacts before = app.contact().all();
+            Contacts before = app.db().contacts();
         File photo = new File("src/test/resources/romea.jpg");
         app.contact().create(contact);
         app.goTo().homePage();
         assertThat(app.contact().count(), equalTo(before.size() + 1));
-        Contacts after = app.contact().all();
+            Contacts after = app.db().contacts();
 
         assertThat(after, equalTo(
                 before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));

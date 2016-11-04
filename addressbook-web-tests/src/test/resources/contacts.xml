@@ -7,29 +7,15 @@
 0</homePhone>
     <email>email
 0</email>
+      <email2>email
+          2</email2>
+      <email3>email
+          3</email3>
+      <mobile>email
+          2</mobile>
+      <workPhone>email
+          3</workPhone>
     <address>address
 0</address>
-  </contact>
-  <contact>
-    <firstname>firstaname 1</firstname>
-    <lastname>lastname
-1</lastname>
-    <homePhone>homephone
-1</homePhone>
-    <email>email
-1</email>
-    <address>address
-1</address>
-  </contact>
-  <contact>
-    <firstname>firstaname 2</firstname>
-    <lastname>lastname
-2</lastname>
-    <homePhone>homephone
-2</homePhone>
-    <email>email
-2</email>
-    <address>address
-2</address>
   </contact>
 </list>
