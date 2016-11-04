@@ -6,12 +6,14 @@ import com.thoughtworks.xstream.XStream;
 import edu.stqa.irigri.addressbook.model.GroupData;
 import edu.stqa.irigri.addressbook.model.Groups;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class GroupCreationTests extends TestBase {
 
@@ -54,26 +57,25 @@ public class GroupCreationTests extends TestBase {
         }
     }
 
-    @Test (dataProvider = "validGroupsFromJson")
-    public void testGroupCreationTest(GroupData group) {
+    @Test (dataProvider = "validGroupsFromXml")
+    public void testGroupCreation(GroupData group) {
+        Groups before = app.db().groups();
         app.goTo().groupPage();
-        Groups before = app.group().all();
         app.group().create(group);
+        app.goTo().groupPage();
         assertThat(app.group().count(), equalTo(before.size() + 1));
-        Groups after = app.group().all();
-
-        assertThat(after, equalTo(
-                before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        Groups after = app.db().groups();
+        assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 
     @Test
-    public void testBadGroupCreationTest() {
+    public void testBadGroupCreation() {
+        Groups before = app.db().groups();
+        GroupData group = new GroupData().withName("test0'");
         app.goTo().groupPage();
-        Groups before = app.group().all();
-        GroupData group = new GroupData().withName("test4'");
         app.group().create(group);
         assertThat(app.group().count(), equalTo(before.size()));
-        Groups after = app.group().all();
+        Groups after = app.db().groups();
         assertThat(after, equalTo(before));
     }
 }
