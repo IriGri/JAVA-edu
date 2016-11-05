@@ -2,6 +2,7 @@ package edu.stqa.irigri.addressbook.appmanager;
 
 import edu.stqa.irigri.addressbook.model.ContactData;
 import edu.stqa.irigri.addressbook.model.Contacts;
+import edu.stqa.irigri.addressbook.model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -33,8 +34,10 @@ public class ContactHelper extends HelperBase {
         attach(By.name("photo"), contactData.getPhoto());
 
         if (creation) {
-            if (contactData.getGroup() != null) {
-                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if (contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group")))
+                        .selectByVisibleText(contactData.getGroups().iterator().next().getName());
             } else {
                 Assert.assertFalse(isElementPresent(By.name("new_group")));
             }
@@ -79,6 +82,11 @@ public class ContactHelper extends HelperBase {
         fillContactForm(contact, false);
         updateContactForm();
         contactCache = null;
+    }
+
+    public void addToGroup(ContactData contact){
+        selectContactById(contact.getId());
+        click(By.name("add"));
     }
 
     public void delete(ContactData contact) {

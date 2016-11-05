@@ -3,6 +3,9 @@ package edu.stqa.irigri.addressbook.tests;
 import com.thoughtworks.xstream.XStream;
 import edu.stqa.irigri.addressbook.model.ContactData;
 import edu.stqa.irigri.addressbook.model.Contacts;
+import edu.stqa.irigri.addressbook.model.GroupData;
+import edu.stqa.irigri.addressbook.model.Groups;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -38,11 +41,12 @@ public class ContactsCreationTests extends TestBase {
 
         @Test (dataProvider = "validContacts")
         public void testContactsCreationTests(ContactData contact) {
-        app.goTo().homePage();
+            Groups groups = app.db().groups();
+            app.goTo().homePage();
+            File photo = new File("src/test/resources/romea.jpg");
             Contacts before = app.db().contacts();
-        File photo = new File("src/test/resources/romea.jpg");
         app.contact().create(contact);
-        app.goTo().homePage();
+            app.goTo().homePage();
         assertThat(app.contact().count(), equalTo(before.size() + 1));
             Contacts after = app.db().contacts();
         assertThat(after, equalTo(
