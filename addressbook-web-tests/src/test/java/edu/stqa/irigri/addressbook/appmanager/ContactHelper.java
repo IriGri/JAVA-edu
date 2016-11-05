@@ -89,6 +89,13 @@ public class ContactHelper extends HelperBase {
         click(By.name("add"));
     }
 
+    public void deleteFromGroup(ContactData contact){
+        viewDetailsById(contact.getId());
+        click(By.xpath("//div/div[4]/i/a"));
+        selectContactById(contact.getId());
+        click(By.name("remove"));
+    }
+
     public void delete(ContactData contact) {
         selectContactById(contact.getId());
         deleteSelectedContact();

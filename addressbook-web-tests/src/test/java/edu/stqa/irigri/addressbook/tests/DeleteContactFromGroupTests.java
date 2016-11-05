@@ -5,19 +5,15 @@ import edu.stqa.irigri.addressbook.model.Contacts;
 import edu.stqa.irigri.addressbook.model.GroupData;
 import edu.stqa.irigri.addressbook.model.Groups;
 import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.*;
 
-public class AddContactToGroupTest extends TestBase {
+public class DeleteContactFromGroupTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions(){
-        Groups groups = app.db().groups();
-        Contacts contacts = app.db().contacts();
 
         if (app.db().groups().size() == 0) {
             app.goTo().groupPage();
@@ -25,28 +21,28 @@ public class AddContactToGroupTest extends TestBase {
         }
 
         if (app.db().contacts().size() == 0) {
-        app.goTo().homePage();
-        app.contact().create(new ContactData().withFirstname("Iri").withLastname("Gri").withMobile("3222333")
-                .withEmail("test@email.com").withAddress("France"));
-    }
+            app.goTo().homePage();
+            app.contact().create(new ContactData().withFirstname("Iri").withLastname("Gri").withMobile("3222333")
+                    .withEmail("test@email.com").withAddress("France"));
+        }
 
         ContactData contact = app.db().contacts().iterator().next();
-        if (contact.getGroups().size() != 0){
+        if (contact.getGroups().size() == 0) {
             app.goTo().homePage();
             Contacts before = app.db().contacts();
-            ContactData contactWithoutGroup = before.iterator().next();
-            app.contact().deleteFromGroup(contactWithoutGroup);
+            ContactData contactWithGroup = before.iterator().next();
+            app.contact().addToGroup(contactWithGroup);
         }
-}
+    }
 
     @Test
     public void testAddContactToGroup(){
         app.goTo().homePage();
         ContactData contact = app.db().contacts().iterator().next();
         Contacts before = app.db().contacts();
-        ContactData contactWithGroup = before.iterator().next();
-        app.contact().addToGroup(contactWithGroup);
+        ContactData contactWithoutGroup = before.iterator().next();
+        app.contact().deleteFromGroup(contactWithoutGroup);
         app.goTo().homePage();
-        MatcherAssert.assertThat(contactWithGroup.getGroups(), equalTo(contact.getGroups()));
+        MatcherAssert.assertThat(contactWithoutGroup.getGroups(), equalTo(contact.getGroups()));
     }
 }
