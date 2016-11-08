@@ -1,5 +1,6 @@
 package edu.stqa.irigri.mantis.appmanager;
 
+import org.apache.http.client.methods.HttpPost;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class ApplicationManager {
     private final Properties properties;
@@ -45,4 +47,11 @@ public class ApplicationManager {
         wd.quit();
     }
 
+    public HttpSession newSession(){
+        return new HttpSession(this);
+    }
+
+    public String getProperty(String key) {
+        return properties.getProperty(key);
+    }
 }
